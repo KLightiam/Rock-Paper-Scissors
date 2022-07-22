@@ -12,14 +12,14 @@ i)requests for input from user:
 
 5. create game() fxn that 
   i)calls playRound() to play a 5 round game.
-  ii) keeps score and reports winner or loser at the end.
+  ii) keeps score and reports winner or loser at the end. (correction: this applies to stage 4)
   
   hint: for(let i = 0; i < 5; i++){
 
   }, might be needed.
 
 my hints: 
-i) create variables to hold computer score and user score initialized to 0; at stage 5.
+i) create variables to hold computer score and user score initialized to 0; at stage 5. (correction: this should be done right before stage 4)
 ii) If user greater than cpu print winner else print loser.
 */
 
@@ -42,49 +42,51 @@ function playerSelection(){
     return userInput;
 }
 
+let winner = "";
+let playerScore = 0;
+let cpuScore = 0;
+let count = 0;
+
 function playRound(playerSelection,computerChoice){
-    let winner = "";
+  
+    
     if((playerSelection == "rock" && computerChoice == "paper") || (playerSelection == "paper" && computerChoice == "scissors") || (playerSelection == "scissors" && computerChoice == "rock")){
-        winner = "computer";
+        winner = `You lost this round, ${computerChoice} conquers ${playerSelection} any day!`;
+        console.log(winner);
+        cpuScore++;
+        count++;
+        console.log(`User:${playerScore}  Computer:${cpuScore}`);
     }
     else if((playerSelection == "paper" && computerChoice == "rock") || (playerSelection == "scissors" && computerChoice == "paper") || (playerSelection == "rock" && computerChoice == "scissors")){
-        winner = "you";
+        winner = `You won this round, ${playerSelection} will beat ${computerChoice} even if it's asleep`;
+        console.log(winner);
+        count++;
+        playerScore++;
+        console.log(`User:${playerScore}  Computer:${cpuScore}`);
+
     }
     else{
-        winner = 'none';
+        count++;
+        winner = `It's a tie on this round`;
+        console.log(winner);
+        console.log(`User:${playerScore}  Computer:${cpuScore}`)
     }
 
-    if(winner == "computer"){
-        return `You lost, ${computerChoice} conquers ${playerSelection} any day!`;
+    if((count == 5) && (playerScore > cpuScore)){
+        console.log(`Yay, you won with ${playerScore} against computer's ${cpuScore}`);
     }
-    else if(winner == "you"){
-        return `You won, ${playerSelection} will beat ${computerChoice} even if it's asleep`;
+    else if((count == 5) && (playerScore < cpuScore)){
+        console.log(`Sorry, you lost by ${cpuScore - playerScore} since you only got ${playerScore} vs computer's ${cpuScore}`);
     }
-    return "Wow, it's a tie";
+    else if((count == 5) && (playerScore == cpuScore)){
+        console.log(`It was a tie. You and the computer had ${playerScore} after 5 rounds`)
+    }
 }
 
 
-
 function game(){
-    let playerScore = 0;
-    let cpuScore = 0;
-    for (let i = 0; i < 5;i++){
+    for(let i=0;i<5;i++){
         playRound(playerSelection(),getComputerChoice());
-        if(playRound(playerSelection(),getComputerChoice()) == `You lost, ${getComputerChoice()} conquers ${playerSelection()} any day!`){
-            cpuScore++;
-        }
-        else if(playRound(playerSelection(),getComputerChoice()) == `You won, ${playerSelection()} will beat ${getComputerChoice()} even if it's asleep`){
-            playerScore++;
-        }
-    }
-    if(playerScore > cpuScore){
-        return `Yay, you won with ${playerScore} against computer's ${cpuScore}`;
-    }
-    else if ( playerScore < cpuScore){
-        return `Sorry, you lost by ${cpuScore - playerScore} since you only got ${playerScore}`;
-    }
-    else {
-       return `It was a tie. You and the computer had ${playerScore} after 5 rounds`;
     }
 }
 
