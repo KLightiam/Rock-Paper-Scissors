@@ -37,57 +37,79 @@ function getComputerChoice(){
     return cpuChoice;
 }
 
-function playerSelection(){
-    let userInput = prompt("It's your turn to play: Rock Paper Scissors. What do you choose? Rock,Paper or Scissors").toLowerCase();
-    return userInput;
-}
+let rockButton = document.querySelector('#rock');
+let paperButton = document.querySelector('#paper');
+let scissorsButton = document.querySelector('#scissors');
+let display = document.querySelector('div');
+
+rockButton.addEventListener('click',playRound);
+paperButton.addEventListener('click',playRound);
+scissorsButton.addEventListener('click',playRound);
+
+// function playerSelection(){
+//     // let userInput = prompt("It's your turn to play: Rock Paper Scissors. What do you choose? Rock,Paper or Scissors").toLowerCase();
+//     // let userInput = e.target.id;
+
+//     return userInput;
+// }
 
 let winner = "";
 let playerScore = 0;
 let cpuScore = 0;
 let count = 0;
 
-function playRound(playerSelection,computerChoice){
-  
+function playRound(e){
+    let userInput = e.target.id;
+
+    function playerSelection(){
+        return userInput;
+    };
+    playerSelection();
+    getComputerChoice();
+
+    if(playerScore == 5 || cpuScore == 5){
+        playerScore = 0;
+        cpuScore = 0;
+        let startWord = ['Here We Go Again',"Let's Try Again!","All The Best","Hmm. You think you'll win? Let's see!"];
+        let wordChoice = Math.floor(Math.random()*startWord.length);
+        display.textContent = startWord[wordChoice];
+    }
     
-    if((playerSelection == "rock" && computerChoice == "paper") || (playerSelection == "paper" && computerChoice == "scissors") || (playerSelection == "scissors" && computerChoice == "rock")){
-        winner = `You lost this round, ${computerChoice} conquers ${playerSelection} any day!`;
-        console.log(winner);
+    if((playerSelection() == "rock" && getComputerChoice() == "paper") || (playerSelection() == "paper" && getComputerChoice() == "scissors") || (playerSelection() == "scissors" && getComputerChoice() == "rock")){
+        winner = `You lost this round, ${getComputerChoice()} conquers ${playerSelection()} any day!`;
+        // console.log(winner);
         cpuScore++;
         count++;
-        console.log(`User:${playerScore}  Computer:${cpuScore}`);
+        display.textContent = `${winner} User:${playerScore}  Computer:${cpuScore}`;
     }
-    else if((playerSelection == "paper" && computerChoice == "rock") || (playerSelection == "scissors" && computerChoice == "paper") || (playerSelection == "rock" && computerChoice == "scissors")){
-        winner = `You won this round, ${playerSelection} will beat ${computerChoice} even if it's asleep`;
-        console.log(winner);
+    else if((playerSelection() == "paper" && getComputerChoice() == "rock") || (playerSelection() == "scissors" && getComputerChoice() == "paper") || (playerSelection() == "rock" && getComputerChoice() == "scissors")){
+        winner = `You won this round, ${playerSelection()} will beat ${getComputerChoice()} even if it's asleep`;
+        // console.log(winner);
         count++;
         playerScore++;
-        console.log(`User:${playerScore}  Computer:${cpuScore}`);
+        display.textContent = `${winner} User:${playerScore}  Computer:${cpuScore}`;
 
     }
     else{
         count++;
         winner = `It's a tie on this round`;
-        console.log(winner);
-        console.log(`User:${playerScore}  Computer:${cpuScore}`)
+        // console.log(winner);
+        display.textContent = `${winner} User:${playerScore}  Computer:${cpuScore}`;
     }
 
-    if((count == 5) && (playerScore > cpuScore)){
-        console.log(`Yay, you won with ${playerScore} against computer's ${cpuScore}`);
+    if(playerScore == 5){
+        display.textContent = `Yay, you won with ${playerScore} against computer's ${cpuScore} User:${playerScore}  Computer:${cpuScore}`;
     }
-    else if((count == 5) && (playerScore < cpuScore)){
-        console.log(`Sorry, you lost by ${cpuScore - playerScore} since you only got ${playerScore} vs computer's ${cpuScore}`);
-    }
-    else if((count == 5) && (playerScore == cpuScore)){
-        console.log(`It was a tie. You and the computer had ${playerScore} after 5 rounds`)
+    else if(cpuScore == 5){
+        display.textContent = `Sorry, you lost by ${cpuScore - playerScore} since you only got ${playerScore} vs computer's ${cpuScore} User:${playerScore}  Computer:${cpuScore}`;
     }
 }
 
 
-function game(){
-    for(let i=0;i<5;i++){
-        playRound(playerSelection(),getComputerChoice());
-    }
-}
+// function game(){
+//     for(let i=0;i<5;i++){
+//         playRound(playerSelection(),getComputerChoice());
+//     }
+// }
 
-game();
+// game();
